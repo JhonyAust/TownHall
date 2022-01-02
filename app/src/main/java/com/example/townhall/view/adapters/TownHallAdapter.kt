@@ -1,14 +1,21 @@
 package com.example.townhall.view.adapters
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.townhall.R
 import com.example.townhall.databinding.ItemDishLayoutBinding
 import com.example.townhall.model.entities.TownHall
+import com.example.townhall.view.activities.AddUpdateDishActivity
 import com.example.townhall.view.fragments.AllDishesFragment
 import com.example.townhall.view.fragments.FavoriteDishesFragment
+import com.tutorials.eu.favdish.utils.Constants
 
 
 class TownHallAdapter (private val fragment: Fragment):RecyclerView.Adapter<TownHallAdapter.ViewHolder>() {
@@ -55,6 +62,39 @@ class TownHallAdapter (private val fragment: Fragment):RecyclerView.Adapter<Town
                 fragment.dishDetails(dish)
             }
         }
+        // TODO Step : We want the menu icon should be visible only in the AllDishesFragment not in the FavoriteDishesFragment so add the below to achieve it.
+        // START
+        if (fragment is AllDishesFragment) {
+            holder.ibMore.visibility = View.VISIBLE
+        } else if (fragment is FavoriteDishesFragment) {
+            holder.ibMore.visibility = View.GONE
+        }
+        // END
+
+        // TODO Step : Assign the click event to the ib_more icon and Popup the menu items.
+        // START
+        holder.ibMore.setOnClickListener {
+            val popup = PopupMenu(fragment.context, holder.ibMore)
+            //Inflating the Popup using xml file
+            popup.menuInflater.inflate(R.menu.menu_adapter, popup.menu)
+
+            // TODO Step : Assign the click event to the menu items as below and print the Log or You can display the Toast message for now.
+            // START
+            popup.setOnMenuItemClickListener {
+                if (it.itemId == R.id.action_edit_dish) {
+                    val intent = Intent(fragment.requireActivity(),AddUpdateDishActivity::class.java)
+                    intent.putExtra(Constants.EXTRA_DISH_DETAILS,dish)
+                    fragment.requireActivity().startActivity(intent)
+                } else if (it.itemId == R.id.action_delete_dish) {
+                    Log.i("You have clicked on", "Delete Option of ${dish.title}")
+                }
+                true
+            }
+            // END
+
+            popup.show() //showing popup menu
+        }
+        // END
     }
 
     /**
@@ -79,6 +119,7 @@ class TownHallAdapter (private val fragment: Fragment):RecyclerView.Adapter<Town
         // Holds the TextView that will add each item to
         val ivDishImage = view.ivDishImage
         val tvTitle = view.tvDishTitle
+        val ibMore = view.ibMore
     }
 }
-// END
+

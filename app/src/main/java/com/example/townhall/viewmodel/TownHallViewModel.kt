@@ -17,6 +17,10 @@ class TownHallViewModel(private val repository: TownHallRepository):ViewModel() 
     }
 
     val favoriteDishes: LiveData<List<TownHall>> =repository.favoriteDishes.asLiveData()
+
+    fun delete(dish:TownHall) = viewModelScope.launch {
+        repository.deleteTownHallData(dish)
+    }
 }
 class TownHallViewModelFactory(private val repository: TownHallRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

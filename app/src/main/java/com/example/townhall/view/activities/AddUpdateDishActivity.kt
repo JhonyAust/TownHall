@@ -63,10 +63,11 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
     // TODO: Create a global variable for stored image path.
     private var mImagePath: String = ""
     // TODO: Define the custom list dialog global and initialize it in the function as it is define previously.
-    // START
     // A global variable for the custom list dialog.
     private lateinit var mCustomListDialog: Dialog
-    // END
+
+    private  var mTownHallDetails:TownHall? = null
+
     private val mTownHallViewModel : TownHallViewModel by viewModels {
         TownHallViewModelFactory((application as TownHallApplication).repository)
     }
@@ -76,7 +77,34 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         mBinding = ActivityAddUpdateDishBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+
+        if (intent.hasExtra(Constants.EXTRA_DISH_DETAILS)){
+            mTownHallDetails = intent.getParcelableExtra(Constants.EXTRA_DISH_DETAILS)
+        }
         setupActionBar()
+
+        mTownHallDetails?.let {
+            if (it.id != 0) {
+                mImagePath = it.image
+
+                // Load the dish image in the ImageView.
+                Glide.with(this@AddUpdateDishActivity)
+                    .load(mImagePath)
+                    .centerCrop()
+                    .into(mBinding.ivDishImage)
+
+                mBinding.etTitle.setText(it.title)
+                mBinding.etType.setText(it.type)
+                mBinding.etCategory.setText(it.category)
+                mBinding.etIngredients.setText(it.ingredients)
+                mBinding.etCookingTime.setText(it.cookingTime)
+                mBinding.etDirectionToCook.setText(it.directionCook)
+
+                mBinding.btnAddDish.text = resources.getString(R.string.lbl_update_dish)
+            }
+        }
+
         mBinding.ivAddImage.setOnClickListener(this)
 
         // TODO: Assign the click events to the EditText fields as you have noticed while designing we have disabled few fields like Type, Category and Cooking time.
@@ -103,6 +131,19 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setupActionBar() {
         setSupportActionBar(mBinding.toolbarAddDishActivity)
+
+        // TODO Step: Update the title accordingly "ADD" or "UPDATE".
+        // START
+        if (mTownHallDetails != null && mTownHallDetails!!.id != 0) {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_edit_dish)
+            }
+        } else {
+            supportActionBar?.let {
+                it.title = resources.getString(R.string.title_add_dish)
+            }
+        }
+        // END
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mBinding.toolbarAddDishActivity.setNavigationOnClickListener {
             onBackPressed()
@@ -217,24 +258,53 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
                     }
                     else -> {
 
+                        var dishID = 0
+                        var imageSource = Constants.DISH_IMAGE_SOURCE_LOCAL
+                        var favoriteDish = false
+
+                        mTownHallDetails?.let {
+                            if (it.id != 0) {
+                                dishID = it.id
+                                imageSource = it.imageSource
+                                favoriteDish = it.favoriteDish
+                            }
+                        }
+
                         val townHallDetails: TownHall = TownHall(
                             mImagePath,
-                            Constants.DISH_IMAGE_SOURCE_LOCAL,
+                            imageSource,
                             title,
                             type,
                             category,
                             ingredients,
                             cookingTimeInMinutes,
                             cookingDirection,
-                            false
+                            favoriteDish,
+                            dishID
                         )
-                        mTownHallViewModel.insert(townHallDetails)
-                        Toast.makeText(
-                            this@AddUpdateDishActivity,
-                            "Successfully added dish details",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.i("Insertion","Success")
+                        if(dishID == 0) {
+                            mTownHallViewModel.insert(townHallDetails)
+
+                            Toast.makeText(
+                                this@AddUpdateDishActivity,
+                                "You successfully added your favorite dish details.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            // You even print the log if Toast is not displayed on emulator
+                            Log.e("Insertion", "Success")
+                        }else{
+                            mTownHallViewModel.update(townHallDetails)
+
+                            Toast.makeText(
+                                this@AddUpdateDishActivity,
+                                "You successfully updated your favorite dish details.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            // You even print the log if Toast is not displayed on emulator
+                            Log.e("Updating", "Success")
+                        }
                         finish()
                     }
                 }

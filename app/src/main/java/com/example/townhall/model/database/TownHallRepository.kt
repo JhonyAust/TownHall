@@ -18,4 +18,9 @@ class TownHallRepository(private val townHallDao: TownHallDao) {
     }
 
     val favoriteDishes: Flow<List<TownHall>> =townHallDao.getFavoriteDishesList()
+
+    @WorkerThread
+    suspend fun deleteTownHallData(townHall:TownHall){
+        townHallDao.deleteTownHallDetails((townHall))
+    }
 }

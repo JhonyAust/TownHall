@@ -1,5 +1,6 @@
 package com.example.townhall.view.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -76,6 +77,11 @@ class AllDishesFragment : Fragment() {
         if (requireActivity() is MainActivity){
             (activity as MainActivity?)?.hideBottomNavigationView()
         }
+    }
+
+    fun deleteDish(townHall:TownHall){
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle(resources.getString(R.string.title_delete_dish))
     }
 
     override fun onResume() {
