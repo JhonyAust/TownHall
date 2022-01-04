@@ -23,4 +23,5 @@ class TownHallRepository(private val townHallDao: TownHallDao) {
     suspend fun deleteTownHallData(townHall:TownHall){
         townHallDao.deleteTownHallDetails((townHall))
     }
+    fun filteredListDishes(value:String): Flow<List<TownHall>> =townHallDao.getFilteredDishesList(value)
 }

@@ -21,4 +21,7 @@ interface TownHallDao {
     @Delete
     suspend fun deleteTownHallDetails(townHall: TownHall)
 
+    @Query("SELECT * FROM TOWNHALL_TABLE WHERE type = :filterType")
+    fun getFilteredDishesList(filterType: String): Flow<List<TownHall>>
+
 }

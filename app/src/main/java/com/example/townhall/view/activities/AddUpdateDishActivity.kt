@@ -49,7 +49,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
-import com.tutorials.eu.favdish.utils.Constants
+import com.example.townhall.utils.Constants
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -516,7 +516,7 @@ class AddUpdateDishActivity : AppCompatActivity(), View.OnClickListener {
         // Set the LayoutManager that this RecyclerView will use.
         binding.rvList.layoutManager = LinearLayoutManager(this@AddUpdateDishActivity)
         // Adapter class is initialized and list is passed in the param.
-        val adapter = CustomListItemAdapter(this@AddUpdateDishActivity, itemsList, selection)
+        val adapter = CustomListItemAdapter(this@AddUpdateDishActivity,null, itemsList, selection)
         // adapter instance is set to the recyclerview to inflate the items.
         binding.rvList.adapter = adapter
         //Start the dialog and display it on screen.

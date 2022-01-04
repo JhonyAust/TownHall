@@ -15,7 +15,7 @@ import com.example.townhall.model.entities.TownHall
 import com.example.townhall.view.activities.AddUpdateDishActivity
 import com.example.townhall.view.fragments.AllDishesFragment
 import com.example.townhall.view.fragments.FavoriteDishesFragment
-import com.tutorials.eu.favdish.utils.Constants
+import com.example.townhall.utils.Constants
 
 
 class TownHallAdapter (private val fragment: Fragment):RecyclerView.Adapter<TownHallAdapter.ViewHolder>() {
@@ -86,7 +86,9 @@ class TownHallAdapter (private val fragment: Fragment):RecyclerView.Adapter<Town
                     intent.putExtra(Constants.EXTRA_DISH_DETAILS,dish)
                     fragment.requireActivity().startActivity(intent)
                 } else if (it.itemId == R.id.action_delete_dish) {
-                    Log.i("You have clicked on", "Delete Option of ${dish.title}")
+                    if (fragment is AllDishesFragment){
+                        fragment.deleteDish(dish)
+                    }
                 }
                 true
             }

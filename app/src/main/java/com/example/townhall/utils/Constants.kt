@@ -1,4 +1,4 @@
-package com.tutorials.eu.favdish.utils
+package com.example.townhall.utils
 
 // TODO Step 1: Create a Constants object in the utils package and define the constant values.
 /**
@@ -13,6 +13,8 @@ object Constants {
     const val DISH_IMAGE_SOURCE_LOCAL : String = "Local"
     const val DISH_IMAGE_SOURCE_ONLINE : String = "Online"
     const val EXTRA_DISH_DETAILS: String = "DishDetails"
+    const val ALL_ITEMS: String = "All"
+    const val FILTER_SELECTION: String = "FilterSelection"
 
     // TODO: Define the Dish Types list items.
     // START

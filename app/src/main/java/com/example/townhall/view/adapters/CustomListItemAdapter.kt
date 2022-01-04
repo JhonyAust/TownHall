@@ -3,15 +3,18 @@ package com.example.townhall.view.adapters
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.townhall.databinding.ItemCustomListLayoutBinding
 import com.example.townhall.view.activities.AddUpdateDishActivity
+import com.example.townhall.view.fragments.AllDishesFragment
 
 
 // TODO: Create a custom list adapter to use it while showing the list item in the RecyclerView.
 // START
 class CustomListItemAdapter(
     private val activity: Activity,
+    private val fragment: Fragment?,
     private val listItems: List<String>,
     private val selection: String
 ) :
@@ -51,6 +54,10 @@ class CustomListItemAdapter(
             if (activity is AddUpdateDishActivity) {
                 activity.selectedListItem(item, selection)
             }
+            if (fragment is AllDishesFragment){
+                fragment.filterSelection(item)
+            }
+
         }
         // END
     }
