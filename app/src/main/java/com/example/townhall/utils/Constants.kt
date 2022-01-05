@@ -15,6 +15,18 @@ object Constants {
     const val EXTRA_DISH_DETAILS: String = "DishDetails"
     const val ALL_ITEMS: String = "All"
     const val FILTER_SELECTION: String = "FilterSelection"
+    const val API_ENDPOINT: String = "recipes/random"
+
+    const val API_KEY: String = "apiKey"
+    const val LIMIT_LICENSE: String = "limitLicense"
+    const val TAGS: String = "tags"
+    const val NUMBER: String = "number"
+    const val BASE_URL = "https://api.spoonacular.com/"
+    const val API_KEY_VALUE: String ="fd1469029fa44adfa212f8ce9336f08f"
+
+    const val LIMIT_LICENSE_VALUE: Boolean = true
+    const val TAGS_VALUE:String = "vegetarian,dessert"
+    const val NUMBER_VALUE: Int = 1
 
     // TODO: Define the Dish Types list items.
     // START
