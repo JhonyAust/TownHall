@@ -17,6 +17,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,10 +68,14 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.karumi:dexter:6.2.3'
